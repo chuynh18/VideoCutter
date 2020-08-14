@@ -96,6 +96,13 @@
             <TextBox Grid.Row="1" x:Name="Output_Video_Name"></TextBox>
         </Grid>
 
-        <Button Grid.Column="1" Grid.Row="5" Margin="10,10,10,10" HorizontalAlignment="Right" VerticalAlignment="Bottom">Cut video</Button>
+        <Button Grid.Column="1"
+                Grid.Row="5"
+                Margin="10,10,10,10"
+                HorizontalAlignment="Right"
+                VerticalAlignment="Bottom"
+                Click="Cut_Video">
+            Cut video
+        </Button>
     </Grid>
 </UserControl>

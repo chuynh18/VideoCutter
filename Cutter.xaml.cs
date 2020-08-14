@@ -34,8 +34,6 @@ namespace VideoCutter
         /// The path to the chosen video is placed into the Input_Video TextBox.
         /// A suggested filename is placed into the Output_Video_name TextBox.
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
         private void Select_Video(object sender, RoutedEventArgs e)
         {
             var chooseVideoFileDialog = new OpenFileDialog();
@@ -53,8 +51,6 @@ namespace VideoCutter
         /// <summary>
         /// Handles DropEvent when user drags and drops video file onto the application window when the Cut video tab is active
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
         private void HandleDrop(object sender, DragEventArgs e)
         {
             if (e.Data.GetDataPresent(DataFormats.FileDrop))
@@ -81,8 +77,6 @@ namespace VideoCutter
         /// 
         /// WARNING!  Has a dirty hack to make OpenFileDialog accept folders.
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
         private void Select_Output_Folder(object sender, RoutedEventArgs e)
         {
             var chooseOutputFolderDialog = new OpenFileDialog();
@@ -110,6 +104,15 @@ namespace VideoCutter
             }
         }
 
+        /// <summary>
+        /// Does string manupulation on an absolute path to a file to grab the filename extension.
+        /// </summary>
+        /// <param name="path">
+        /// An absolute path to a file.
+        /// </param>
+        /// <returns>
+        /// The filename extension of the input file.
+        /// </returns>
         private string Get_File_Extension(string path)
         {
             string[] splitPath = path.Split('\\');
@@ -127,6 +130,19 @@ namespace VideoCutter
             return HARDCODED_FILENAME + "." + fileExtension;
         }
 
+
+        /// <summary>
+        /// Populates a TextBox with a suggested output file name.  The file extension of
+        /// the output file is the same as the extension on the input file.  The base name
+        /// is a hardcoded string in Create_Suggested_Name().
+        /// </summary>
+        /// <param name="textBox">
+        /// The target TextBox to populate
+        /// </param>
+        /// <param name="path">
+        /// The absolute path to the target file.  In this case, it's provided by user input
+        /// into the Input_Video TextBox.
+        /// </param>
         private void Autofill_Suggested_Name(TextBox textBox, string path)
         {
             var fileExtension = Get_File_Extension(path);
@@ -134,5 +150,23 @@ namespace VideoCutter
 
             textBox.Text = suggestedName;
         }
+
+        /// <summary>
+        /// Grabs user inputs from the various fields in Cutter.xaml,
+        /// builds the arguments list, and calls FFMpeg.
+        /// </summary>
+        private void Cut_Video(object sender, RoutedEventArgs e)
+        {
+            var startTime = Start_Time.Text;
+            var endTime = End_Time.Text;
+
+            var durationAsFloat = Convert.ToDouble(endTime) - Convert.ToDouble(startTime);
+            var duration = Convert.ToString(durationAsFloat);
+
+            var input = Input_Video.Text;
+            var output = Output_Dir.Text + "\\" + Output_Video_Name.Text;
+        }
+
+
     }
 }

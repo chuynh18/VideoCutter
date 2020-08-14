@@ -21,10 +21,5 @@ namespace VideoCutter
 
             ffmpegLocation = IsoStorageHelper.ReadStorage("ffmpegLocation.txt");
         }
-
-        private void Application_Exit(object sender, ExitEventArgs e)
-        {
-
-        }
     }
 }
