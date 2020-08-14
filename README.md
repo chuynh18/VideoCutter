@@ -1,6 +1,6 @@
 # VideoCutter
 
-** This is a work in progress and currently has zero functionality.  Stay tuned!**
+<span style="color:red">**This is a work in progress and currently has zero functionality.  Stay tuned!**</span>
 
 ![VideoCutter main window](screenshot.png)
 
