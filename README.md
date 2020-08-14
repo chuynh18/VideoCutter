@@ -1,6 +1,6 @@
 # VideoCutter
 
-<span style="color:red">**This is a work in progress and currently has zero functionality.  Stay tuned!**</span>
+**This is a work in progress and currently has zero functionality.  Stay tuned!**
 
 ![VideoCutter main window](screenshot.png)
 
@@ -8,10 +8,10 @@
 
 VideoCutter is a (probably) badly-named barebones front-end for [FFMpeg](https://ffmpeg.org/).  FFMpeg is a powerful tool for processing media files.  However, as a commandline tool, it is not very accessible for the general population.  As a result, many popular front-ends have been written for FFMpeg, the most famous of which is [HandBrake](http://handbrake.fr/).
 
-However, no front-end can hope to expose all the functionality of FFMpeg and most front-ends attempt to expose the various encoding functionalities.  VideoCutter hopes to expose some of the lesser-known but equally useful and powerful features:
+However, no front-end can hope to expose all the functionality of FFMpeg and most front-ends attempt to expose the various encoding functionalities.  For example, the target use case of HandBrake is transcoding.  VideoCutter hopes to expose some of the lesser-known but equally useful features of FFMpeg:
 * Cutting video without requiring re-encoding
 * Merging multiple video files of the same format without requiring re-encoding
-* Extracting the audio and video tracks from a muxed media file
+* Extracting the audio and/or video tracks from a muxed media file
 
 ## Why should I care?
 

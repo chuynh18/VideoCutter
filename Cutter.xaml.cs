@@ -50,6 +50,11 @@ namespace VideoCutter
             }
         }
 
+        /// <summary>
+        /// Handles DropEvent when user drags and drops video file onto the application window when the Cut video tab is active
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void HandleDrop(object sender, DragEventArgs e)
         {
             if (e.Data.GetDataPresent(DataFormats.FileDrop))
@@ -82,7 +87,7 @@ namespace VideoCutter
         {
             var chooseOutputFolderDialog = new OpenFileDialog();
 
-            var INSTRUCTION = "Select a folder";
+            var USER_INSTRUCTIONS = "Select a folder";
 
             // hacky - disables validation and file existence check, so user can click OK despite not selecting a real file
             chooseOutputFolderDialog.ValidateNames = false;
@@ -90,7 +95,7 @@ namespace VideoCutter
             chooseOutputFolderDialog.CheckPathExists = true;
 
             // pre-fills in text, forcing OpenFileDialog to select a nonexistent file
-            chooseOutputFolderDialog.FileName = INSTRUCTION;
+            chooseOutputFolderDialog.FileName = USER_INSTRUCTIONS;
 
             if (chooseOutputFolderDialog.ShowDialog() == true)
             {

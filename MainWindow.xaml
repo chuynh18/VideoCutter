@@ -14,7 +14,7 @@
             <local:Merger />
         </TabItem>
         <TabItem Header="Extract tracks">
-            
+            <local:Extractor />
         </TabItem>
         <TabItem Header="Settings">
             <local:Settings />

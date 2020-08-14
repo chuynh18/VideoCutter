@@ -58,6 +58,9 @@
     <Compile Include="About.xaml.cs">
       <DependentUpon>About.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Extractor.xaml.cs">
+      <DependentUpon>Extractor.xaml</DependentUpon>
+    </Compile>
     <Compile Include="FFMpegHelper.cs" />
     <Compile Include="IsoStorageHelper.cs" />
     <Compile Include="Merger.xaml.cs">
@@ -72,6 +75,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Cutter.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Extractor.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
