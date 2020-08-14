@@ -20,6 +20,7 @@ While it is possible to cut video with current tools or FFMpeg front-ends, most 
 This application is a simple [WPF](https://docs.microsoft.com/en-us/dotnet/framework/wpf/) front-end for FFMpeg.  I just wanted to play around with C# outside the context of Unity and throw together a simple Windows application.  Take it or leave it!
 
 The FFMpeg command for cutting video has the following syntax:
+
 `ffmpeg -ss [amount of time to seek in seconds] -i [path to input video] -c copy -t [amount of time to cut in seconds] [path to output]`
 
 This is unwieldy to remember.  All VideoCutter does is exposes a drag-and-drop UI and some TextBoxes so that the user can input their desired parameters.  It will then construct the arguments list and pass that on to FFMpeg.
