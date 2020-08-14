@@ -2,6 +2,8 @@
 
 ** This is a work in progress and currently has zero functionality.  Stay tuned!**
 
+![VideoCutter main window](screenshot.png)
+
 ## What is it?
 
 VideoCutter is a (probably) badly-named barebones front-end for [FFMpeg](https://ffmpeg.org/).  FFMpeg is a powerful tool for processing media files.  However, as a commandline tool, it is not very accessible for the general population.  As a result, many popular front-ends have been written for FFMpeg, the most famous of which is [HandBrake](http://handbrake.fr/).
@@ -23,9 +25,11 @@ The FFMpeg command for cutting video has the following syntax:
 
 `ffmpeg -ss [amount of time to seek in seconds] -i [path to input video] -c copy -t [amount of time to cut in seconds] [path to output]`
 
-This is unwieldy to remember.  All VideoCutter does is exposes a drag-and-drop UI and some TextBoxes so that the user can input their desired parameters.  It will then construct the arguments list and pass that on to FFMpeg.
+This is unwieldy.  All VideoCutter does is exposes a drag-and-drop UI and some TextBoxes so that the user can input their desired parameters.  VideoCutter will then construct the arguments list and call FFMpeg.
 
 ## Future development
+
+Well...  let's get a functional MVP up and running first before we think about anything else!
 
 Hopefully, merging identically formatted videos and extracting individual media tracks will come next.
 
