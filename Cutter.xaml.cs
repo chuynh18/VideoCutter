@@ -43,8 +43,7 @@ namespace VideoCutter
             if (chooseVideoFileDialog.ShowDialog() == true)
             {
                 var pathToVideo = chooseVideoFileDialog.FileName;
-                Input_Video.Text = pathToVideo;
-                Autofill_Suggested_Name(Output_Video_Name, pathToVideo);
+                UpdateUIAfterVideoSelected(pathToVideo);
             }
         }
 
@@ -67,9 +66,20 @@ namespace VideoCutter
 
                 var path = files[0];
 
-                Input_Video.Text = path;
-                Autofill_Suggested_Name(Output_Video_Name, path);
+                UpdateUIAfterVideoSelected(path);
             }
+        }
+
+        /// <summary>
+        /// Shared code for updating the VideoCutter UI after a video is selected.
+        /// Used by both Select_Video() and HandleDrop().
+        /// </summary>
+        /// <param name="path"></param>
+        private void UpdateUIAfterVideoSelected(string path)
+        {
+            Input_Video.Text = path;
+            Autofill_Suggested_Name(Output_Video_Name, path);
+            End_Time.Text = FFMpegHelper.GetVideoDuration(path);
         }
 
         /// <summary>
@@ -160,13 +170,10 @@ namespace VideoCutter
             var startTime = Start_Time.Text;
             var endTime = End_Time.Text;
 
-            var durationAsFloat = Convert.ToDouble(endTime) - Convert.ToDouble(startTime);
-            var duration = Convert.ToString(durationAsFloat);
-
             var input = Input_Video.Text;
             var output = Output_Dir.Text + "\\" + Output_Video_Name.Text;
+
+            FFMpegHelper.CutVideo(input, output, startTime, endTime);
         }
-
-
     }
 }

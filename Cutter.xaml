@@ -55,7 +55,7 @@
 
             <StackPanel Grid.Column="0" Grid.Row="0" Orientation="Vertical">
                 <TextBlock>Input start time in seconds</TextBlock>
-                <TextBox x:Name="Start_Time"></TextBox>
+                <TextBox x:Name="Start_Time">0</TextBox>
             </StackPanel>
 
             <StackPanel Grid.Column="2" Grid.Row="0" Orientation="Vertical">

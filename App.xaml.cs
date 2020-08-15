@@ -14,12 +14,14 @@ namespace VideoCutter
     public partial class App : Application
     {
         public string ffmpegLocation { get; set; }
+        public string ffprobeLocation { get; set; }
 
         private void Application_Startup(object sender, StartupEventArgs e)
         {
             IsoStorageHelper.CreateStorageIfNecessary("ffmpegLocation.txt");
 
             ffmpegLocation = IsoStorageHelper.ReadStorage("ffmpegLocation.txt");
+            ffprobeLocation = FFMpegHelper.CreateFFProbePath(ffmpegLocation);
         }
     }
 }

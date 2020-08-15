@@ -27,7 +27,7 @@ namespace VideoCutter
         {
             InitializeComponent();
 
-            FFMpeg_Location.Text = ((App)Application.Current).ffmpegLocation;
+            FFMpeg_Location.Text = FFMpegHelper.GetFFMpegPath();
         }
 
         /// <summary>
@@ -49,7 +49,8 @@ namespace VideoCutter
             {
                 var pathToFFMpeg = findFFMpegDialog.FileName;
                 FFMpeg_Location.Text = pathToFFMpeg;
-                ((App)Application.Current).ffmpegLocation = pathToFFMpeg;
+                FFMpegHelper.SetFFMpegPath(pathToFFMpeg);
+                FFMpegHelper.SetFFProbePath(FFMpegHelper.CreateFFProbePath(pathToFFMpeg));
                 IsoStorageHelper.WriteStorage("ffmpegLocation.txt", pathToFFMpeg);
             }
         }
