@@ -1,6 +1,6 @@
 # VideoCutter
 
-**This is a work in progress and currently has zero functionality.  Stay tuned!**
+**This is a work in progress and currently can only cut video.  Stay tuned!**
 
 ![VideoCutter main window](screenshot.png)
 
@@ -28,8 +28,6 @@ The FFMpeg command for cutting video has the following syntax:
 This is unwieldy.  All VideoCutter does is exposes a drag-and-drop UI and some TextBoxes so that the user can input their desired parameters.  VideoCutter will then construct the arguments list and call FFMpeg.
 
 ## Future development
-
-Well...  let's get a functional MVP up and running first before we think about anything else!
 
 Hopefully, merging identically formatted videos and extracting individual media tracks will come next.
 
