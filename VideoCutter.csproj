@@ -58,6 +58,7 @@
     <Compile Include="About.xaml.cs">
       <DependentUpon>About.xaml</DependentUpon>
     </Compile>
+    <Compile Include="DirectoryOperationsHelper.cs" />
     <Compile Include="Extractor.xaml.cs">
       <DependentUpon>Extractor.xaml</DependentUpon>
     </Compile>

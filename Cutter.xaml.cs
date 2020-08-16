@@ -153,8 +153,8 @@ namespace VideoCutter
         }
 
         /// <summary>
-        /// Grabs user inputs from the various fields in Cutter.xaml,
-        /// builds the arguments list, and calls FFMpeg.
+        /// Cuts video.  Grabs all necessary user inputs from the UI to build the appropriate arguments.
+        /// Calls ffmpeg.  If the output filename is already taken, asks the user whether they wish to overwrite.
         /// </summary>
         private void Cut_Video(object sender, RoutedEventArgs e)
         {
@@ -178,6 +178,11 @@ namespace VideoCutter
             }
 
             FFMpegHelper.CutVideo(input, output, startTime, endTime);
+
+            if (Open_When_Finished.IsChecked == true)
+            {
+                DirectoryOperationsHelper.OpenFolderAndHighlightFile(output);
+            }
         }
 
         /// <summary>
@@ -187,14 +192,8 @@ namespace VideoCutter
         /// <param name="e"></param>
         private void Open_Destination_Folder(object sender, RoutedEventArgs e)
         {
-            if (Directory.Exists(Output_Dir.Text))
-            {
-                Process.Start("explorer", Output_Dir.Text);
-            }
-            else
-            {
-                MessageBox.Show("The folder " + Output_Dir.Text + " does not exist.");
-            }
+            Console.WriteLine("Open Destination Folder button clicked");
+            DirectoryOperationsHelper.OpenFolder(Output_Dir.Text);
         }
     }
 }

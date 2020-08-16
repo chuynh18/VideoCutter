@@ -27,6 +27,12 @@ namespace VideoCutter
             ((App)Application.Current).ffmpegLocation = ffmpegPath;
         }
 
+        /// <summary>
+        /// Does string manipulation to the path of ffmpeg
+        /// to create a string representing the path to ffprobe.
+        /// </summary>
+        /// <param name="ffmpegPath"></param>
+        /// <returns></returns>
         public static string CreateFFProbePath(string ffmpegPath)
         {
             string[] ffmpegPathList = ffmpegPath.Split('\\');
@@ -52,6 +58,16 @@ namespace VideoCutter
             ((App)Application.Current).ffprobeLocation = ffprobePath;
         }
 
+        /// <summary>
+        /// Runs a target executable.
+        /// </summary>
+        /// <param name="exePath">
+        /// Path to an executable
+        /// </param>
+        /// <param name="args">
+        /// List of arguments to pass to the executable
+        /// </param>
+        /// <returns></returns>
         private static string Execute(string exePath, string args)
         {
             Console.WriteLine("running Execute(" + exePath + " " + args + ")");
@@ -74,6 +90,15 @@ namespace VideoCutter
             return result;
         }
 
+        /// <summary>
+        /// Uses ffprobe to retrieve the duration (in seconds) of a video file
+        /// </summary>
+        /// <param name="videoPath">
+        /// Path to a video file
+        /// </param>
+        /// <returns>
+        /// The duration of the target video file in seconds.
+        /// </returns>
         public static string GetVideoDuration(string videoPath)
         {
             var ffprobePath = GetFFProbePath();
@@ -84,6 +109,21 @@ namespace VideoCutter
             return videoLength.Trim().Trim('0');
         }
 
+        /// <summary>
+        /// Calls ffmpeg to cut a target video file
+        /// </summary>
+        /// <param name="videoPath">
+        /// Path to input video file
+        /// </param>
+        /// <param name="outputPath">
+        /// Path to output video file (the file that will be created)
+        /// </param>
+        /// <param name="startTime">
+        /// Timestamp (in seconds) from which to start cutting
+        /// </param>
+        /// <param name="endTime">
+        /// Timestamp (in seconds) at which to end the cut video
+        /// </param>
         public static void CutVideo(string videoPath, string outputPath, string startTime, string endTime)
         {
             var ffmpegPath = GetFFMpegPath();
