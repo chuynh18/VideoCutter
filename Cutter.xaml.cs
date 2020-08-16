@@ -1,18 +1,9 @@
 ﻿using Microsoft.Win32;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Diagnostics;
+using System.IO;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace VideoCutter
 {
@@ -173,7 +164,37 @@ namespace VideoCutter
             var input = Input_Video.Text;
             var output = Output_Dir.Text + "\\" + Output_Video_Name.Text;
 
+            if (File.Exists(output))
+            {
+                MessageBoxResult result = MessageBox.Show(
+                    "There is already a video named \"" + Output_Video_Name.Text + "\".  Would you like to overwrite this video?",
+                    "Overwrite this video?",
+                    MessageBoxButton.OKCancel
+                    );
+
+                if (result == MessageBoxResult.Cancel) {
+                    return;
+                }
+            }
+
             FFMpegHelper.CutVideo(input, output, startTime, endTime);
+        }
+
+        /// <summary>
+        /// Opens the folder whose path is currently listed in the Output_Dir TextBox.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Open_Destination_Folder(object sender, RoutedEventArgs e)
+        {
+            if (Directory.Exists(Output_Dir.Text))
+            {
+                Process.Start("explorer", Output_Dir.Text);
+            }
+            else
+            {
+                MessageBox.Show("The folder " + Output_Dir.Text + " does not exist.");
+            }
         }
     }
 }

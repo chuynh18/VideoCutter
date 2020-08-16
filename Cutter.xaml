@@ -96,13 +96,18 @@
             <TextBox Grid.Row="1" x:Name="Output_Video_Name"></TextBox>
         </Grid>
 
-        <Button Grid.Column="1"
-                Grid.Row="5"
-                Margin="10,10,10,10"
-                HorizontalAlignment="Right"
-                VerticalAlignment="Bottom"
-                Click="Cut_Video">
-            Cut video
-        </Button>
+        <StackPanel Orientation="Horizontal"
+                    Grid.Column="1"
+                    Grid.Row="5"
+                    Margin="10,10,10,10"
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Bottom">
+            <Button Margin="5,5,5,5" Click="Open_Destination_Folder">
+                Open destination folder
+            </Button>
+            <Button Margin="5,5,5,5" Click="Cut_Video">
+                Cut video
+            </Button>
+        </StackPanel>
     </Grid>
 </UserControl>

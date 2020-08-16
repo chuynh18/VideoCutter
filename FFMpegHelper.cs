@@ -1,12 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Input;
 
 namespace VideoCutter
 {
@@ -59,7 +54,7 @@ namespace VideoCutter
 
         private static string Execute(string exePath, string args)
         {
-            Console.WriteLine("running Execute(" + exePath + ", " + args + ")");
+            Console.WriteLine("running Execute(" + exePath + " " + args + ")");
 
             var result = string.Empty;
 
@@ -92,7 +87,7 @@ namespace VideoCutter
         public static void CutVideo(string videoPath, string outputPath, string startTime, string endTime)
         {
             var ffmpegPath = GetFFMpegPath();
-            var VIDEO_CUT_ARGUMENTS = "-i \"" + videoPath + "\" -ss " + startTime + " -c copy -t " + endTime + " \"" + outputPath + "\"";
+            var VIDEO_CUT_ARGUMENTS = "-i \"" + videoPath + "\" -ss " + startTime + " -c copy -to " + endTime + " \"" + outputPath + "\" -y";
 
             Execute(ffmpegPath, VIDEO_CUT_ARGUMENTS);
         }
