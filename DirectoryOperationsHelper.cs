@@ -26,6 +26,13 @@ namespace VideoCutter
             }
         }
 
+        /// <summary>
+        /// Opens a new Windows Explorer window and highlights the output file.
+        /// This will open a new window even when the output folder is already open.
+        /// </summary>
+        /// <param name="filePath">
+        /// The path to the file to highlight.
+        /// </param>
         public static void OpenFolderAndHighlightFile(string filePath)
         {
             if (File.Exists(filePath))
