@@ -34,7 +34,7 @@
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
-            
+
             <TextBlock Grid.Column="0" Grid.Row="0">
                 Drag and drop or select a video file to cut
             </TextBlock>
@@ -89,7 +89,7 @@
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
-            
+
             <TextBlock Grid.Row="0">
                 Enter a name for the clipped video
             </TextBlock>

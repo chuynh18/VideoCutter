@@ -97,7 +97,7 @@ namespace VideoCutter
                 var outputPath = chooseOutputFolderDialog.FileName;
 
                 // remove nonexistent file name from path, resulting in a path to a directory
-                var splitOutputPath = outputPath.Split('\\');
+                var splitOutputPath = outputPath.Split(Path.DirectorySeparatorChar);
                 var fakeFileName = splitOutputPath[splitOutputPath.Length - 1];
                 var correctedOutput = outputPath.Substring(0, outputPath.Length - fakeFileName.Length);
 
@@ -116,7 +116,7 @@ namespace VideoCutter
         /// </returns>
         private string Get_File_Extension(string path)
         {
-            string[] splitPath = path.Split('\\');
+            string[] splitPath = path.Split(Path.DirectorySeparatorChar);
             string fileName = splitPath[splitPath.Length - 1];
             string[] splitFileName = fileName.Split('.');
             string fileExtension = splitFileName[splitFileName.Length - 1];
@@ -130,7 +130,6 @@ namespace VideoCutter
 
             return HARDCODED_FILENAME + "." + fileExtension;
         }
-
 
         /// <summary>
         /// Populates a TextBox with a suggested output file name.  The file extension of
@@ -158,11 +157,13 @@ namespace VideoCutter
         /// </summary>
         private void Cut_Video(object sender, RoutedEventArgs e)
         {
+            var directorySeparatorCharacter = char.ToString(Path.DirectorySeparatorChar);
+
             var startTime = Start_Time.Text;
             var endTime = End_Time.Text;
 
             var input = Input_Video.Text;
-            var output = Output_Dir.Text + "\\" + Output_Video_Name.Text;
+            var output = Output_Dir.Text + directorySeparatorCharacter + Output_Video_Name.Text;
 
             if (File.Exists(output))
             {

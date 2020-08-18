@@ -21,7 +21,9 @@ namespace VideoCutter
             {
                 Console.WriteLine(fileName + " does not exist.");
 
-                new IsolatedStorageFileStream(fileName, FileMode.CreateNew, isoStore);
+                new IsolatedStorageFileStream(fileName,
+                    FileMode.CreateNew,
+                    isoStore);
 
                 Console.WriteLine(fileName + " has been created.");
             }
@@ -59,12 +61,7 @@ namespace VideoCutter
                 {
                     using (StreamReader reader = new StreamReader(isoStream))
                     {
-                        string content = reader.ReadToEnd().Trim();
-
-                        Console.WriteLine("Reading contents:");
-                        Console.WriteLine(content);
-
-                        return content;
+                        return reader.ReadToEnd().Trim();
                     }
                 }
             }

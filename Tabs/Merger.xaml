@@ -19,7 +19,7 @@
         </Grid.RowDefinitions>
         
         <Grid.Background>
-            <ImageBrush ImageSource="Deus Ex.png" />
+            <ImageBrush ImageSource="../Images/Deus Ex.png"/>
         </Grid.Background>
     </Grid>
 </UserControl>

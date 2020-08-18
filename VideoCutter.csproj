@@ -55,30 +55,30 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="About.xaml.cs">
+    <Compile Include="Tabs\About.xaml.cs">
       <DependentUpon>About.xaml</DependentUpon>
     </Compile>
-    <Compile Include="DirectoryOperationsHelper.cs" />
-    <Compile Include="Extractor.xaml.cs">
+    <Compile Include="HelperClasses\DirectoryOperationsHelper.cs" />
+    <Compile Include="Tabs\Extractor.xaml.cs">
       <DependentUpon>Extractor.xaml</DependentUpon>
     </Compile>
-    <Compile Include="FFMpegHelper.cs" />
-    <Compile Include="IsoStorageHelper.cs" />
-    <Compile Include="Merger.xaml.cs">
+    <Compile Include="HelperClasses\FFMpegHelper.cs" />
+    <Compile Include="HelperClasses\IsoStorageHelper.cs" />
+    <Compile Include="Tabs\Merger.xaml.cs">
       <DependentUpon>Merger.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Settings.xaml.cs">
+    <Compile Include="Tabs\Settings.xaml.cs">
       <DependentUpon>Settings.xaml</DependentUpon>
     </Compile>
-    <Page Include="About.xaml">
+    <Page Include="Tabs\About.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Cutter.xaml">
+    <Page Include="Tabs\Cutter.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Extractor.xaml">
+    <Page Include="Tabs\Extractor.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -90,18 +90,18 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Cutter.xaml.cs">
+    <Compile Include="Tabs\Cutter.xaml.cs">
       <DependentUpon>Cutter.xaml</DependentUpon>
     </Compile>
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="Merger.xaml">
+    <Page Include="Tabs\Merger.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Settings.xaml">
+    <Page Include="Tabs\Settings.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -133,7 +133,7 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Deus Ex.png" />
+    <Resource Include="Images\Deus Ex.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

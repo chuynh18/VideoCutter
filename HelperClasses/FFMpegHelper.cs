@@ -35,10 +35,12 @@ namespace VideoCutter
         /// <returns></returns>
         public static string CreateFFProbePath(string ffmpegPath)
         {
-            string[] ffmpegPathList = ffmpegPath.Split('\\');
+            string[] ffmpegPathList = ffmpegPath.Split(Path.DirectorySeparatorChar);
             ffmpegPathList[ffmpegPathList.Length - 1] = "ffprobe.exe";
 
-            return string.Join("\\", ffmpegPathList);
+            var directorySeparatorChar = char.ToString(Path.DirectorySeparatorChar);
+
+            return string.Join(directorySeparatorChar, ffmpegPathList);
         }
 
         public static string GetFFProbePath()
@@ -102,11 +104,11 @@ namespace VideoCutter
         public static string GetVideoDuration(string videoPath)
         {
             var ffprobePath = GetFFProbePath();
-            var VIDEO_LENGTH_ARGUMENTS = "-i \"" + videoPath + "\" -show_entries format=duration -v quiet -of csv=\"p=0\"";
+            var VIDEO_LENGTH_ARGUMENTS = "-i \"" + videoPath + "\" -sexagesimal -show_entries format=duration -v quiet -of csv=\"p=0\"";
             var videoLength = Execute(ffprobePath, VIDEO_LENGTH_ARGUMENTS);
 
             Console.WriteLine("Video length is: " + videoLength);
-            return videoLength.Trim().Trim('0');
+            return videoLength.Trim();
         }
 
         /// <summary>
