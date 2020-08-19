@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Windows;
 using System.Windows.Controls;
+using VideoCutter.HelperClasses;
 
 namespace VideoCutter
 {
@@ -20,45 +21,14 @@ namespace VideoCutter
             Output_Dir.Text = Environment.GetFolderPath(Environment.SpecialFolder.MyVideos);
         }
 
-        /// <summary>
-        /// Allows user to select an input video via dialog box.
-        /// The path to the chosen video is placed into the Input_Video TextBox.
-        /// A suggested filename is placed into the Output_Video_name TextBox.
-        /// </summary>
         private void Select_Video(object sender, RoutedEventArgs e)
         {
-            var chooseVideoFileDialog = new OpenFileDialog();
-            chooseVideoFileDialog.Title = "Choose a video file";
-            chooseVideoFileDialog.Filter = "All files (*.*)|*.*";
-
-            if (chooseVideoFileDialog.ShowDialog() == true)
-            {
-                var pathToVideo = chooseVideoFileDialog.FileName;
-                UpdateUIAfterVideoSelected(pathToVideo);
-            }
+            SelectFileHelper.Select_Video(UpdateUIAfterVideoSelected);
         }
 
-        /// <summary>
-        /// Handles DropEvent when user drags and drops video file onto the application window when the Cut video tab is active
-        /// </summary>
         private void HandleDrop(object sender, DragEventArgs e)
         {
-            if (e.Data.GetDataPresent(DataFormats.FileDrop))
-            {
-                string[] files = (string[])e.Data.GetData(DataFormats.FileDrop);
-
-                if (files.Length > 1)
-                {
-                    string warningText = "You dragged multiple files.  A file has been selected but may not be your desired file.  Please drag your desired file onto VideoCutter.";
-                    string title = "Multiple files were dropped";
-
-                    MessageBox.Show(warningText, title, MessageBoxButton.OK, MessageBoxImage.Information);
-                }
-
-                var path = files[0];
-
-                UpdateUIAfterVideoSelected(path);
-            }
+            SelectFileHelper.HandleDrop(e, UpdateUIAfterVideoSelected);
         }
 
         /// <summary>
@@ -73,36 +43,9 @@ namespace VideoCutter
             End_Time.Text = FFMpegHelper.GetVideoDuration(path);
         }
 
-        /// <summary>
-        /// Places path to selected output directory into the Output_Dir TextBox.
-        /// 
-        /// WARNING!  Has a dirty hack to make OpenFileDialog accept folders.
-        /// </summary>
         private void Select_Output_Folder(object sender, RoutedEventArgs e)
         {
-            var chooseOutputFolderDialog = new OpenFileDialog();
-
-            var USER_INSTRUCTIONS = "Select a folder";
-
-            // hacky - disables validation and file existence check, so user can click OK despite not selecting a real file
-            chooseOutputFolderDialog.ValidateNames = false;
-            chooseOutputFolderDialog.CheckFileExists = false;
-            chooseOutputFolderDialog.CheckPathExists = true;
-
-            // pre-fills in text, forcing OpenFileDialog to select a nonexistent file
-            chooseOutputFolderDialog.FileName = USER_INSTRUCTIONS;
-
-            if (chooseOutputFolderDialog.ShowDialog() == true)
-            {
-                var outputPath = chooseOutputFolderDialog.FileName;
-
-                // remove nonexistent file name from path, resulting in a path to a directory
-                var splitOutputPath = outputPath.Split(Path.DirectorySeparatorChar);
-                var fakeFileName = splitOutputPath[splitOutputPath.Length - 1];
-                var correctedOutput = outputPath.Substring(0, outputPath.Length - fakeFileName.Length);
-
-                Output_Dir.Text = correctedOutput;
-            }
+            SelectFileHelper.Select_Output_Folder(Output_Dir);
         }
 
         /// <summary>

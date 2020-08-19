@@ -38,7 +38,7 @@
             <TextBlock Grid.Column="0" Grid.Row="0">
                 Drag and drop or select a video file to cut
             </TextBlock>
-            <TextBox x:Name="Input_Video" Grid.Column="0" Grid.Row="1" AllowDrop="True" Drop="HandleDrop"></TextBox>
+            <TextBox x:Name="Input_Video" Grid.Column="0" Grid.Row="1" AllowDrop="True"></TextBox>
             <Button x:Name="Choose_Video_Button" Grid.Column="2" Grid.Row="1" Click="Select_Video">Choose video</Button>
         </Grid>
 
