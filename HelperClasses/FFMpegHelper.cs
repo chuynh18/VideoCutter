@@ -2,6 +2,7 @@
 using System.Diagnostics;
 using System.IO;
 using System.Windows;
+using VideoCutter.HelperClasses;
 
 namespace VideoCutter
 {
@@ -28,19 +29,17 @@ namespace VideoCutter
         }
 
         /// <summary>
-        /// Does string manipulation to the path of ffmpeg
-        /// to create a string representing the path to ffprobe.
+        /// Does string manipulation to the path of ffmpeg to create a string representing the path to ffprobe.
         /// </summary>
-        /// <param name="ffmpegPath"></param>
-        /// <returns></returns>
+        /// <param name="ffmpegPath">
+        /// Path to ffmpeg.exe
+        /// </param>
+        /// <returns>
+        /// Path to ffprobe.exe
+        /// </returns>
         public static string CreateFFProbePath(string ffmpegPath)
         {
-            string[] ffmpegPathList = ffmpegPath.Split(Path.DirectorySeparatorChar);
-            ffmpegPathList[ffmpegPathList.Length - 1] = "ffprobe.exe";
-
-            var directorySeparatorChar = char.ToString(Path.DirectorySeparatorChar);
-
-            return string.Join(directorySeparatorChar, ffmpegPathList);
+            return ffmpegPath.Replace("ffmpeg.exe", "ffprobe.exe");
         }
 
         public static string GetFFProbePath()
@@ -69,7 +68,9 @@ namespace VideoCutter
         /// <param name="args">
         /// List of arguments to pass to the executable
         /// </param>
-        /// <returns></returns>
+        /// <returns>
+        /// Standard output of the executed program.
+        /// </returns>
         private static string Execute(string exePath, string args)
         {
             Console.WriteLine("running Execute(" + exePath + " " + args + ")");
@@ -99,16 +100,17 @@ namespace VideoCutter
         /// Path to a video file
         /// </param>
         /// <returns>
-        /// The duration of the target video file in seconds.
+        /// The duration of the target video file in sexagesimal format (h:mm:ss.microseconds).
         /// </returns>
         public static string GetVideoDuration(string videoPath)
         {
             var ffprobePath = GetFFProbePath();
             var VIDEO_LENGTH_ARGUMENTS = "-i \"" + videoPath + "\" -sexagesimal -show_entries format=duration -v quiet -of csv=\"p=0\"";
             var videoLength = Execute(ffprobePath, VIDEO_LENGTH_ARGUMENTS);
+            var simplifiedVideoLength = TimeHelper.SimplifyTimestamp(videoLength);
 
-            Console.WriteLine("Video length is: " + videoLength);
-            return videoLength.Trim();
+            Console.WriteLine("Video length is: " + simplifiedVideoLength);
+            return simplifiedVideoLength.Trim();
         }
 
         /// <summary>

@@ -1,4 +1,5 @@
 ﻿using System.Windows;
+using VideoCutter.HelperClasses;
 
 namespace VideoCutter
 {
