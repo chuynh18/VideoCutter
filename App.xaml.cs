@@ -17,6 +17,8 @@ namespace VideoCutter
 
             ffmpegLocation = IsoStorageHelper.ReadStorage("ffmpegLocation.txt");
             ffprobeLocation = FFMpegHelper.CreateFFProbePath(ffmpegLocation);
+
+            FirstTimeSetup.AutoSetupFFMpeg();
         }
     }
 }

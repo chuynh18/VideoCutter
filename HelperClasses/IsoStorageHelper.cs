@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Diagnostics;
 using System.IO;
 using System.IO.IsolatedStorage;
 
@@ -19,17 +15,17 @@ namespace VideoCutter
 
             if (!isoStore.FileExists(fileName))
             {
-                Console.WriteLine(fileName + " does not exist.");
+                Debug.WriteLine(fileName + " does not exist.");
 
                 new IsolatedStorageFileStream(fileName,
                     FileMode.CreateNew,
                     isoStore);
 
-                Console.WriteLine(fileName + " has been created.");
+                Debug.WriteLine(fileName + " has been created.");
             }
             else
             {
-                Console.WriteLine(fileName + " already exists.  No action will be taken.");
+                Debug.WriteLine(fileName + " already exists.  No action will be taken.");
             }
         }
 
@@ -44,8 +40,8 @@ namespace VideoCutter
                     using (StreamWriter writer = new StreamWriter(isoStream))
                     {
                         writer.WriteLine(content.Trim());
-                        Console.WriteLine("You have written the following to the file:");
-                        Console.WriteLine(content);
+                        Debug.WriteLine("You have written the following to the file:");
+                        Debug.WriteLine(content);
                     }
                 }
             }
