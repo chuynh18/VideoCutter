@@ -19,6 +19,8 @@
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="5" />
                     <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="5" />
+                    <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />
@@ -26,6 +28,7 @@
 
                 <TextBox Grid.Column="0" Name="FFMpeg_Location"></TextBox>
                 <Button Grid.Column="2" Click="Select_FFMpeg">Select FFMpeg exe</Button>
+                <Button Grid.Column="4" Click="Autodetect_FFMpeg">Autodetect</Button>
             </Grid>
             
         </StackPanel>

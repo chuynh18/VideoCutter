@@ -29,6 +29,9 @@ namespace VideoCutter.HelperClasses
         /// 
         /// Locations searched are Program Files and Program Files (x86) on fixed disks,
         /// the user's home directory, and VideoCutter's own directory.
+        /// 
+        /// This method should only be called when necessary, as it may attempt to access
+        /// idling hard drives, causing the application to feel unresponsive.
         /// </summary>
         public static void AutoSetupFFMpeg()
         {
@@ -48,8 +51,9 @@ namespace VideoCutter.HelperClasses
             else
             {
                 FFMpegLocation latestFFMpeg = GetLatestFFMpeg(ffmpegLocations);
-
                 Debug.WriteLine("Path to latest ffmpeg directory: " + latestFFMpeg.path);
+                FFMpegHelper.SetFFMpegPath(latestFFMpeg.ffmpeg[0]);
+                FFMpegHelper.SetFFProbePath(latestFFMpeg.ffprobe[0]);
             }
         }
 
@@ -80,10 +84,16 @@ namespace VideoCutter.HelperClasses
             }
 
             // check VideoCutter's own directory
-            ffmpegLocations.AddRange(CheckDirectoryForFFMpeg(AppDomain.CurrentDomain.BaseDirectory));
+            ffmpegLocations.AddRange(
+                CheckDirectoryForFFMpeg(AppDomain.CurrentDomain.BaseDirectory)
+            );
 
             // check user folder
-            ffmpegLocations.AddRange(CheckDirectoryForFFMpeg(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile)));
+            ffmpegLocations.AddRange(
+                CheckDirectoryForFFMpeg(
+                    Environment.GetFolderPath(Environment.SpecialFolder.UserProfile)
+                )
+            );
 
             return ffmpegLocations;
         }

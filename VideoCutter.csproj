@@ -37,6 +37,7 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Runtime.Serialization.Formatters.Soap" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -56,6 +57,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="HelperClasses\FirstTimeSetup.cs" />
+    <Compile Include="HelperClasses\PreferencesHelper.cs" />
     <Compile Include="HelperClasses\SelectFileHelper.cs" />
     <Compile Include="HelperClasses\TimeHelper.cs" />
     <Compile Include="Tabs\About.xaml.cs">

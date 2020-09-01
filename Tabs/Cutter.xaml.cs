@@ -13,12 +13,13 @@ namespace VideoCutter
     /// </summary>
     public partial class Cutter : UserControl
     {
+        private string outputFilename = "clipped_video";
+
         public Cutter()
         {
             InitializeComponent();
-
-            // default output directory to user's Videos folder
-            Output_Dir.Text = Environment.GetFolderPath(Environment.SpecialFolder.MyVideos);
+            Load_Cutter_Prefs();
+            Save_Cutter_Prefs();
         }
 
         private void Select_Video(object sender, RoutedEventArgs e)
@@ -45,7 +46,7 @@ namespace VideoCutter
 
         private void Select_Output_Folder(object sender, RoutedEventArgs e)
         {
-            SelectFileHelper.Select_Output_Folder(Output_Dir);
+            SelectFileHelper.Select_Output_Folder(Output_Dir, Save_Cutter_Prefs);
         }
 
         /// <summary>
@@ -69,9 +70,7 @@ namespace VideoCutter
 
         private string Create_Suggested_Name(string fileExtension)
         {
-            string HARDCODED_FILENAME = "clipped_video";
-
-            return HARDCODED_FILENAME + "." + fileExtension;
+            return outputFilename + "." + fileExtension;
         }
 
         /// <summary>
@@ -108,6 +107,41 @@ namespace VideoCutter
             var input = Input_Video.Text;
             var output = Output_Dir.Text + directorySeparatorCharacter + Output_Video_Name.Text;
 
+            if (string.IsNullOrEmpty(input))
+            {
+                MessageBox.Show(
+                    "Please select a video to cut by either clicking the \"Choose Video\" button, or dragging and dropping a video file. ",
+                    "Please select a video first",
+                    MessageBoxButton.OK
+                    );
+
+                return;
+            }
+
+            if (!File.Exists(input))
+            {
+                MessageBox.Show(
+                    "The input video was not found.  Ensure that it has not been moved or deleted, or select another video to cut.",
+                    "Input video not found",
+                    MessageBoxButton.OK
+                    );
+
+                return;
+            }
+
+            if (!Directory.Exists(Output_Dir.Text))
+            {
+                MessageBox.Show(
+                    "The specified output directory does not exist.  Please create it or choose another output location.",
+                    "Output directory not found",
+                    MessageBoxButton.OK
+                    );
+
+                Output_Dir.Select(0, Output_Dir.Text.Length - 1);
+
+                return;
+            }
+
             if (File.Exists(output))
             {
                 MessageBoxResult result = MessageBox.Show(
@@ -127,6 +161,8 @@ namespace VideoCutter
             {
                 DirectoryOperationsHelper.OpenFolderAndHighlightFile(output);
             }
+
+            Save_Cutter_Prefs();
         }
 
         /// <summary>
@@ -136,8 +172,56 @@ namespace VideoCutter
         /// <param name="e"></param>
         private void Open_Destination_Folder(object sender, RoutedEventArgs e)
         {
-            Console.WriteLine("Open Destination Folder button clicked");
+            Debug.WriteLine("Open Destination Folder button clicked");
             DirectoryOperationsHelper.OpenFolder(Output_Dir.Text);
+        }
+
+        private void Save_Cutter_Prefs()
+        {
+            PreferencesHelper.cutOutputDir = Output_Dir.Text;
+
+            if (Open_When_Finished.IsChecked == true)
+            {
+                PreferencesHelper.cutHighlightOnCompletion = true;
+            }
+            else
+            {
+                PreferencesHelper.cutHighlightOnCompletion = false;
+            }        
+        }
+
+        private void Save_Cutter_Prefs(object sender, RoutedEventArgs e)
+        {
+            Save_Cutter_Prefs();
+        }
+
+        private void Load_Cutter_Prefs()
+        {
+            if (string.IsNullOrWhiteSpace(PreferencesHelper.cutOutputDir))
+            {
+                Output_Dir.Text = Environment.GetFolderPath(Environment.SpecialFolder.MyVideos);
+            }
+            else
+            {
+                Output_Dir.Text = PreferencesHelper.cutOutputDir;
+            }
+
+            if (PreferencesHelper.cutHighlightOnCompletion == true)
+            {
+                Open_When_Finished.IsChecked = true;
+            }
+            else
+            {
+                Open_When_Finished.IsChecked = false;
+            }
+        }
+
+        private void Output_Dir_LostFocus(object sender, RoutedEventArgs e)
+        {
+            if (Directory.Exists(Output_Dir.Text))
+            {
+                Save_Cutter_Prefs();
+            }
         }
     }
 }

@@ -8,17 +8,23 @@ namespace VideoCutter
     /// </summary>
     public partial class App : Application
     {
-        public string ffmpegLocation { get; set; }
-        public string ffprobeLocation { get; set; }
-
         private void Application_Startup(object sender, StartupEventArgs e)
         {
-            IsoStorageHelper.CreateStorageIfNecessary("ffmpegLocation.txt");
+            IsoStorageHelper.CreateStorageIfNecessary("preferences.xml");
+            PreferencesHelper.LoadPrefs("preferences.xml");
 
-            ffmpegLocation = IsoStorageHelper.ReadStorage("ffmpegLocation.txt");
-            ffprobeLocation = FFMpegHelper.CreateFFProbePath(ffmpegLocation);
+            //ffmpegLocation = IsoStorageHelper.ReadStorage("ffmpegLocation.txt");
+            //ffprobeLocation = FFMpegHelper.CreateFFProbePath(ffmpegLocation);
 
-            FirstTimeSetup.AutoSetupFFMpeg();
+            if (string.IsNullOrWhiteSpace(PreferencesHelper.ffmpegPath))
+            {
+                FirstTimeSetup.AutoSetupFFMpeg();
+            }
+        }
+
+        private void Application_Exit(object sender, ExitEventArgs e)
+        {
+            PreferencesHelper.SavePrefs("preferences.xml");
         }
     }
 }

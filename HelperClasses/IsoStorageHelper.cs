@@ -29,42 +29,42 @@ namespace VideoCutter
             }
         }
 
-        static public void WriteStorage(string fileName, string content)
-        {
-            IsolatedStorageFile isoStore = IsolatedStorageFile.GetStore(IsolatedStorageScope.User | IsolatedStorageScope.Assembly, null, null);
+        //static public void WriteStorage(string fileName, string content)
+        //{
+        //    IsolatedStorageFile isoStore = IsolatedStorageFile.GetStore(IsolatedStorageScope.User | IsolatedStorageScope.Assembly, null, null);
 
-            if (isoStore.FileExists(fileName))
-            {
-                using (IsolatedStorageFileStream isoStream = new IsolatedStorageFileStream(fileName, FileMode.Open, isoStore))
-                {
-                    using (StreamWriter writer = new StreamWriter(isoStream))
-                    {
-                        writer.WriteLine(content.Trim());
-                        Debug.WriteLine("You have written the following to the file:");
-                        Debug.WriteLine(content);
-                    }
-                }
-            }
-        }
+        //    if (isoStore.FileExists(fileName))
+        //    {
+        //        using (IsolatedStorageFileStream isoStream = new IsolatedStorageFileStream(fileName, FileMode.Open, isoStore))
+        //        {
+        //            using (StreamWriter writer = new StreamWriter(isoStream))
+        //            {
+        //                writer.WriteLine(content.Trim());
+        //                Debug.WriteLine("You have written the following to the file:");
+        //                Debug.WriteLine(content);
+        //            }
+        //        }
+        //    }
+        //}
 
-        static public string ReadStorage(string fileName)
-        {
-            IsolatedStorageFile isoStore = IsolatedStorageFile.GetStore(IsolatedStorageScope.User | IsolatedStorageScope.Assembly, null, null);
+        //static public string ReadStorage(string fileName)
+        //{
+        //    IsolatedStorageFile isoStore = IsolatedStorageFile.GetStore(IsolatedStorageScope.User | IsolatedStorageScope.Assembly, null, null);
 
-            if (isoStore.FileExists(fileName))
-            {
-                using (IsolatedStorageFileStream isoStream = new IsolatedStorageFileStream(fileName, FileMode.Open, isoStore))
-                {
-                    using (StreamReader reader = new StreamReader(isoStream))
-                    {
-                        return reader.ReadToEnd().Trim();
-                    }
-                }
-            }
-            else
-            {
-                throw new FileNotFoundException(fileName + " not found.");
-            }
-        }
+        //    if (isoStore.FileExists(fileName))
+        //    {
+        //        using (IsolatedStorageFileStream isoStream = new IsolatedStorageFileStream(fileName, FileMode.Open, isoStore))
+        //        {
+        //            using (StreamReader reader = new StreamReader(isoStream))
+        //            {
+        //                return reader.ReadToEnd().Trim();
+        //            }
+        //        }
+        //    }
+        //    else
+        //    {
+        //        throw new FileNotFoundException(fileName + " not found.");
+        //    }
+        //}
     }
 }

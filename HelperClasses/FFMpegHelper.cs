@@ -13,9 +13,9 @@ namespace VideoCutter
     {
         public static string GetFFMpegPath()
         {
-            if (File.Exists(((App)Application.Current).ffmpegLocation))
+            if (File.Exists(PreferencesHelper.ffmpegPath))
             {
-                return ((App)Application.Current).ffmpegLocation;
+                return PreferencesHelper.ffmpegPath;
             }
             else
             {
@@ -25,7 +25,7 @@ namespace VideoCutter
 
         public static void SetFFMpegPath(string ffmpegPath)
         {
-            ((App)Application.Current).ffmpegLocation = ffmpegPath;
+            PreferencesHelper.ffmpegPath = ffmpegPath;
         }
 
         /// <summary>
@@ -44,9 +44,9 @@ namespace VideoCutter
 
         public static string GetFFProbePath()
         {
-            if (File.Exists(((App)Application.Current).ffprobeLocation))
+            if (File.Exists(PreferencesHelper.ffprobePath))
             {
-                return ((App)Application.Current).ffprobeLocation;
+                return PreferencesHelper.ffprobePath;
             }
             else
             {
@@ -56,7 +56,7 @@ namespace VideoCutter
 
         public static void SetFFProbePath(string ffprobePath)
         {
-            ((App)Application.Current).ffprobeLocation = ffprobePath;
+            PreferencesHelper.ffprobePath = ffprobePath;
         }
 
         /// <summary>
@@ -73,7 +73,7 @@ namespace VideoCutter
         /// </returns>
         private static string Execute(string exePath, string args)
         {
-            Console.WriteLine("running Execute(" + exePath + " " + args + ")");
+            Debug.WriteLine("running Execute(" + exePath + " " + args + ")");
 
             var result = string.Empty;
 
@@ -109,7 +109,7 @@ namespace VideoCutter
             var videoLength = Execute(ffprobePath, VIDEO_LENGTH_ARGUMENTS);
             var simplifiedVideoLength = TimeHelper.SimplifyTimestamp(videoLength);
 
-            Console.WriteLine("Video length is: " + simplifiedVideoLength);
+            Debug.WriteLine("Video length is: " + simplifiedVideoLength);
             return simplifiedVideoLength.Trim();
         }
 

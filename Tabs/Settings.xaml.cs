@@ -1,7 +1,8 @@
 ﻿using Microsoft.Win32;
-using System;
+using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
+using VideoCutter.HelperClasses;
 
 namespace VideoCutter
 {
@@ -25,7 +26,7 @@ namespace VideoCutter
         /// <param name="e"></param>
         private void Select_FFMpeg(object sender, RoutedEventArgs e)
         {
-            Console.WriteLine("\"Select FFMpeg executable\" button clicked.");
+            Debug.WriteLine("\"Select FFMpeg executable\" button clicked.");
 
             var findFFMpegDialog = new OpenFileDialog();
             findFFMpegDialog.Title = "Select ffmpeg.exe";
@@ -38,8 +39,13 @@ namespace VideoCutter
                 FFMpeg_Location.Text = pathToFFMpeg;
                 FFMpegHelper.SetFFMpegPath(pathToFFMpeg);
                 FFMpegHelper.SetFFProbePath(FFMpegHelper.CreateFFProbePath(pathToFFMpeg));
-                IsoStorageHelper.WriteStorage("ffmpegLocation.txt", pathToFFMpeg);
             }
+        }
+
+        private void Autodetect_FFMpeg(object sender, RoutedEventArgs e)
+        {
+            FirstTimeSetup.AutoSetupFFMpeg();
+            FFMpeg_Location.Text = PreferencesHelper.ffmpegPath;
         }
     }
 }

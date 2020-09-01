@@ -54,7 +54,7 @@ namespace VideoCutter.HelperClasses
         /// 
         /// WARNING!  Has a dirty hack to make OpenFileDialog accept folders.
         /// </summary>
-        public static void Select_Output_Folder(TextBox targetTextBox)
+        public static void Select_Output_Folder(TextBox targetTextBox, Action callback)
         {
             var chooseOutputFolderDialog = new OpenFileDialog();
 
@@ -78,7 +78,20 @@ namespace VideoCutter.HelperClasses
                 var correctedOutput = outputPath.Substring(0, outputPath.Length - fakeFileName.Length);
 
                 targetTextBox.Text = correctedOutput;
+
+                callback();
             }
+        }
+
+        public static void Select_Output_Folder(TextBox targetTextBox)
+        {
+
+            Select_Output_Folder(targetTextBox, Dummy_Callback);
+        }
+
+        private static void Dummy_Callback()
+        {
+
         }
     }
 }
