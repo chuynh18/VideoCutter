@@ -113,12 +113,9 @@
                     Margin="10,10,0,10"
                     HorizontalAlignment="Right"
                     VerticalAlignment="Bottom">
-            <Button Margin="5,5,5,0" Click="Open_Destination_Folder">
-                Open destination folder
-            </Button>
-            <Button Margin="5,5,0,0" Click="Cut_Video">
-                Cut video
-            </Button>
+            <Button Margin="5,5,5,0" Content="Open destination folder" Click="Open_Destination_Folder" />
+            <Button Margin="5,5,0,0" Content="Cut video" x:Name="Cut_Video_Button" Click="Cut_Video" />
+
         </StackPanel>
     </Grid>
 </UserControl>

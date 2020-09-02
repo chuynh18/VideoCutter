@@ -1,5 +1,6 @@
-﻿using Microsoft.Win32;
-using System;
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.Windows;
@@ -13,13 +14,16 @@ namespace VideoCutter
     /// </summary>
     public partial class Cutter : UserControl
     {
-        private string outputFilename = "clipped_video";
+        private readonly BackgroundWorker worker = new BackgroundWorker();
 
         public Cutter()
         {
             InitializeComponent();
             Load_Cutter_Prefs();
             Save_Cutter_Prefs();
+
+            worker.DoWork += new DoWorkEventHandler(Worker_Cut_Video);
+            worker.RunWorkerCompleted += new RunWorkerCompletedEventHandler(Worker_Complete);
         }
 
         private void Select_Video(object sender, RoutedEventArgs e)
@@ -70,7 +74,8 @@ namespace VideoCutter
 
         private string Create_Suggested_Name(string fileExtension)
         {
-            return outputFilename + "." + fileExtension;
+            var HARDCODED_OUTPUT_NAME = "clipped_video";
+            return HARDCODED_OUTPUT_NAME + "." + fileExtension;
         }
 
         /// <summary>
@@ -99,13 +104,11 @@ namespace VideoCutter
         /// </summary>
         private void Cut_Video(object sender, RoutedEventArgs e)
         {
-            var directorySeparatorCharacter = char.ToString(Path.DirectorySeparatorChar);
-
             var startTime = Start_Time.Text;
             var endTime = End_Time.Text;
 
             var input = Input_Video.Text;
-            var output = Output_Dir.Text + directorySeparatorCharacter + Output_Video_Name.Text;
+            var output = Output_Dir.Text + Path.DirectorySeparatorChar + Output_Video_Name.Text;
 
             if (string.IsNullOrEmpty(input))
             {
@@ -155,13 +158,16 @@ namespace VideoCutter
                 }
             }
 
-            FFMpegHelper.CutVideo(input, output, startTime, endTime);
+            Cut_Video_Button.Content = "Cutting...";
+            Cut_Video_Button.IsEnabled = false;
 
-            if (Open_When_Finished.IsChecked == true)
-            {
-                DirectoryOperationsHelper.OpenFolderAndHighlightFile(output);
-            }
+            List<object> cutArguments = new List<object>();
+            cutArguments.Add(input);
+            cutArguments.Add(output);
+            cutArguments.Add(startTime);
+            cutArguments.Add(endTime);
 
+            worker.RunWorkerAsync(cutArguments);
             Save_Cutter_Prefs();
         }
 
@@ -190,6 +196,9 @@ namespace VideoCutter
             }        
         }
 
+        /// <summary>
+        /// Used by event handlers for saving prefs e.g. saving prefs when user clicks a UI element
+        /// </summary>
         private void Save_Cutter_Prefs(object sender, RoutedEventArgs e)
         {
             Save_Cutter_Prefs();
@@ -216,11 +225,43 @@ namespace VideoCutter
             }
         }
 
+        /// <summary>
+        /// Saves preferences when the user types in a valid output directory, then clicks away from the input box
+        /// </summary>
         private void Output_Dir_LostFocus(object sender, RoutedEventArgs e)
         {
             if (Directory.Exists(Output_Dir.Text))
             {
                 Save_Cutter_Prefs();
+            }
+        }
+
+        /// <summary>
+        /// Cut video method for BackgroundWorker
+        /// </summary>
+        private void Worker_Cut_Video(object sender, DoWorkEventArgs e)
+        {
+            List<object> arguments = e.Argument as List<object>;
+            string input = (string)arguments[0];
+            string output = (string)arguments[1];
+            string startTime = (string)arguments[2];
+            string endTime = (string)arguments[3];
+
+            FFMpegHelper.CutVideo(input, output, startTime, endTime);
+        }
+
+        /// <summary>
+        /// Runs when BackgroundWorker finishes cutting video.  Re-enables cut button.
+        /// </summary>
+        private void Worker_Complete(object sender, RunWorkerCompletedEventArgs e)
+        {
+            Cut_Video_Button.Content = "Cut video";
+            Cut_Video_Button.IsEnabled = true;
+
+            if (Open_When_Finished.IsChecked == true)
+            {
+                var outputFile = Output_Dir.Text + Path.DirectorySeparatorChar + Output_Video_Name.Text;
+                DirectoryOperationsHelper.OpenFolderAndHighlightFile(outputFile);
             }
         }
     }
