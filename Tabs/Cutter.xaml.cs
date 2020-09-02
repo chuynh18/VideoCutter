@@ -14,7 +14,7 @@ namespace VideoCutter
     /// </summary>
     public partial class Cutter : UserControl
     {
-        private readonly BackgroundWorker worker = new BackgroundWorker();
+        private readonly BackgroundWorker cutVideoNonKeyframeWorker = new BackgroundWorker();
 
         public Cutter()
         {
@@ -22,8 +22,8 @@ namespace VideoCutter
             Load_Cutter_Prefs();
             Save_Cutter_Prefs();
 
-            worker.DoWork += new DoWorkEventHandler(Worker_Cut_Video);
-            worker.RunWorkerCompleted += new RunWorkerCompletedEventHandler(Worker_Complete);
+            cutVideoNonKeyframeWorker.DoWork += new DoWorkEventHandler(Worker_Cut_Video);
+            cutVideoNonKeyframeWorker.RunWorkerCompleted += new RunWorkerCompletedEventHandler(Worker_Complete);
         }
 
         private void Select_Video(object sender, RoutedEventArgs e)
@@ -167,7 +167,7 @@ namespace VideoCutter
             cutArguments.Add(startTime);
             cutArguments.Add(endTime);
 
-            worker.RunWorkerAsync(cutArguments);
+            cutVideoNonKeyframeWorker.RunWorkerAsync(cutArguments);
             Save_Cutter_Prefs();
         }
 

@@ -60,7 +60,7 @@ namespace VideoCutter.HelperClasses
 
             try
             {
-                using (var stream = new IsolatedStorageFileStream(fileName, FileMode.Open, userStore))
+                using (var stream = new IsolatedStorageFileStream(fileName, FileMode.OpenOrCreate, userStore))
                 {
                     if (stream.Length > 0)
                     {

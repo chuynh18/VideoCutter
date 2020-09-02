@@ -68,7 +68,6 @@
       <DependentUpon>Extractor.xaml</DependentUpon>
     </Compile>
     <Compile Include="HelperClasses\FFMpegHelper.cs" />
-    <Compile Include="HelperClasses\IsoStorageHelper.cs" />
     <Compile Include="Tabs\Merger.xaml.cs">
       <DependentUpon>Merger.xaml</DependentUpon>
     </Compile>

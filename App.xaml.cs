@@ -10,13 +10,10 @@ namespace VideoCutter
     {
         private void Application_Startup(object sender, StartupEventArgs e)
         {
-            IsoStorageHelper.CreateStorageIfNecessary("preferences.xml");
+            //IsoStorageHelper.CreateStorageIfNecessary("preferences.xml");
             PreferencesHelper.LoadPrefs("preferences.xml");
 
-            //ffmpegLocation = IsoStorageHelper.ReadStorage("ffmpegLocation.txt");
-            //ffprobeLocation = FFMpegHelper.CreateFFProbePath(ffmpegLocation);
-
-            if (string.IsNullOrWhiteSpace(PreferencesHelper.ffmpegPath))
+            if (string.IsNullOrWhiteSpace(PreferencesHelper.ffmpegPath) || string.IsNullOrWhiteSpace(PreferencesHelper.ffprobePath))
             {
                 FirstTimeSetup.AutoSetupFFMpeg();
             }
