@@ -1,5 +1,7 @@
 ﻿using Microsoft.Win32;
 using System.Diagnostics;
+using System.IO;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using VideoCutter.HelperClasses;
@@ -37,9 +39,18 @@ namespace VideoCutter
             {
                 var pathToFFMpeg = findFFMpegDialog.FileName;
                 FFMpeg_Location.Text = pathToFFMpeg;
-                FFMpegHelper.SetFFMpegPath(pathToFFMpeg);
-                FFMpegHelper.SetFFProbePath(FFMpegHelper.CreateFFProbePath(pathToFFMpeg));
+
+                string pathToFFProbe = Modify_Path(pathToFFMpeg, "ffprobe.exe");
+                string pathToFFPlay = Modify_Path(pathToFFMpeg, "ffplay.exe");
+                PreferencesHelper.setFFMpegLocations(pathToFFMpeg, pathToFFProbe, pathToFFPlay);
             }
+        }
+
+        private string Modify_Path(string pathToFFMpeg, string otherExecutable)
+        {
+            string[] splitPath = pathToFFMpeg.Split(Path.DirectorySeparatorChar);
+            splitPath[splitPath.Length - 1] = otherExecutable;
+            return string.Join(Path.DirectorySeparatorChar.ToString(), splitPath);
         }
 
         private void Autodetect_FFMpeg(object sender, RoutedEventArgs e)

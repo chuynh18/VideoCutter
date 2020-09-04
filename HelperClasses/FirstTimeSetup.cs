@@ -15,11 +15,14 @@ namespace VideoCutter.HelperClasses
 
             public readonly string[] ffprobe;
 
-            public FFMpegLocation(string path, string[] ffmpeg, string[] ffprobe)
+            public readonly string[] ffplay;
+
+            public FFMpegLocation(string path, string[] ffmpeg, string[] ffprobe, string[] ffplay)
             {
                 this.path = path;
                 this.ffmpeg = ffmpeg;
                 this.ffprobe = ffprobe;
+                this.ffplay = ffplay;
             }
         }
 
@@ -35,13 +38,17 @@ namespace VideoCutter.HelperClasses
         /// </summary>
         public static void AutoSetupFFMpeg()
         {
+            Debug.WriteLine("Searching for ffmpeg executables...");
+
             List<FFMpegLocation> ffmpegLocations = FindFFMpegDirectories();
 
             foreach (FFMpegLocation location in ffmpegLocations)
             {
+                Debug.WriteLine("Complete set of ffmpeg executables found...");
                 Debug.WriteLine("Path to ffmpeg directory: " + location.path);
                 Debug.WriteLine("Path to ffmpeg: " + location.ffmpeg[0]);
-                Debug.WriteLine("Path to ffprobe: " + location.ffprobe[0] + "\n");
+                Debug.WriteLine("Path to ffprobe: " + location.ffprobe[0]);
+                Debug.WriteLine("Path to ffplay: " + location.ffplay[0] + "\n");
             }
 
             if (ffmpegLocations.Count == 0)
@@ -52,8 +59,7 @@ namespace VideoCutter.HelperClasses
             {
                 FFMpegLocation latestFFMpeg = GetLatestFFMpeg(ffmpegLocations);
                 Debug.WriteLine("Path to latest ffmpeg directory: " + latestFFMpeg.path);
-                FFMpegHelper.SetFFMpegPath(latestFFMpeg.ffmpeg[0]);
-                FFMpegHelper.SetFFProbePath(latestFFMpeg.ffprobe[0]);
+                PreferencesHelper.setFFMpegLocations(latestFFMpeg.ffmpeg[0], latestFFMpeg.ffprobe[0], latestFFMpeg.ffplay[0]);
             }
         }
 
@@ -122,10 +128,11 @@ namespace VideoCutter.HelperClasses
                 {
                     var ffmpeg = Directory.GetFiles(candidate, "ffmpeg.exe", SearchOption.AllDirectories);
                     var ffprobe = Directory.GetFiles(candidate, "ffprobe.exe", SearchOption.AllDirectories);
+                    var ffplay = Directory.GetFiles(candidate, "ffplay.exe", SearchOption.AllDirectories);
 
-                    if (ffmpeg.Length > 0 && ffprobe.Length > 0)
+                    if (ffmpeg.Length > 0 && ffprobe.Length > 0 && ffplay.Length > 0)
                     {
-                        ffmpegLocations.Add(new FFMpegLocation(candidate, ffmpeg, ffprobe));
+                        ffmpegLocations.Add(new FFMpegLocation(candidate, ffmpeg, ffprobe, ffplay));
                     }
                 }
             }

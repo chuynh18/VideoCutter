@@ -185,15 +185,7 @@ namespace VideoCutter
         private void Save_Cutter_Prefs()
         {
             PreferencesHelper.cutOutputDir = Output_Dir.Text;
-
-            if (Open_When_Finished.IsChecked == true)
-            {
-                PreferencesHelper.cutHighlightOnCompletion = true;
-            }
-            else
-            {
-                PreferencesHelper.cutHighlightOnCompletion = false;
-            }        
+            PreferencesHelper.cutHighlightOnCompletion = Open_When_Finished.IsChecked == true;    
         }
 
         /// <summary>
@@ -215,14 +207,7 @@ namespace VideoCutter
                 Output_Dir.Text = PreferencesHelper.cutOutputDir;
             }
 
-            if (PreferencesHelper.cutHighlightOnCompletion == true)
-            {
-                Open_When_Finished.IsChecked = true;
-            }
-            else
-            {
-                Open_When_Finished.IsChecked = false;
-            }
+            Open_When_Finished.IsChecked = PreferencesHelper.cutHighlightOnCompletion;
         }
 
         /// <summary>

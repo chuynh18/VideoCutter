@@ -2,19 +2,21 @@
 using System.Diagnostics;
 using System.IO;
 using System.IO.IsolatedStorage;
-using System.Runtime.Serialization;
-using System.Runtime.Serialization.Formatters.Soap;
+using System.Runtime.CompilerServices;
+using System.Xml.Serialization;
 
 namespace VideoCutter.HelperClasses
 {
-    class PreferencesHelper
+    public class PreferencesHelper
     {
-        [Serializable()]
-        class SerializablePrefs
+        [Serializable]
+        public class SerializablePrefs
         {
             public string ffmpegPath { get; set; }
 
             public string ffprobePath { get; set; }
+
+            public string ffplayPath { get; set; }
 
             public string cutOutputDir { get; set; }
 
@@ -24,6 +26,8 @@ namespace VideoCutter.HelperClasses
         public static string ffmpegPath { get; set; }
 
         public static string ffprobePath { get; set; }
+
+        public static string ffplayPath { get; set; }
 
         public static string cutOutputDir { get; set; }
 
@@ -42,9 +46,9 @@ namespace VideoCutter.HelperClasses
 
             try
             {
-                using (var stream = new IsolatedStorageFileStream(fileName, FileMode.Open, userStore))
+                using (var stream = new IsolatedStorageFileStream(fileName, FileMode.OpenOrCreate, userStore))
                 {
-                    SoapFormatter serializer = new SoapFormatter();
+                    XmlSerializer serializer = new XmlSerializer(typeof(SerializablePrefs));
                     serializer.Serialize(stream, prefs);
                 }
             } catch (FileNotFoundException e)
@@ -64,13 +68,27 @@ namespace VideoCutter.HelperClasses
                 {
                     if (stream.Length > 0)
                     {
-                        var formatter = new SoapFormatter();
-                        var prefs = (SerializablePrefs)formatter.Deserialize(stream);
+                        XmlSerializer serializer = new XmlSerializer(typeof(SerializablePrefs));
+                        serializer.UnknownNode += new XmlNodeEventHandler(serializer_UnknownNode);
+                        serializer.UnknownAttribute += new XmlAttributeEventHandler(serializer_UnknownAttribute);
 
-                        ffmpegPath = prefs.ffmpegPath.Trim();
-                        ffprobePath = prefs.ffprobePath.Trim();
-                        cutOutputDir = prefs.cutOutputDir.Trim();
-                        cutHighlightOnCompletion = prefs.cutHighlightOnCompletion;
+                        try
+                        {
+                            var prefs = (SerializablePrefs)serializer.Deserialize(stream);
+
+                            ffmpegPath = string.IsNullOrEmpty(prefs.ffmpegPath) ? "" : prefs.ffmpegPath.Trim();
+                            ffprobePath = string.IsNullOrEmpty(prefs.ffprobePath) ? "" : prefs.ffprobePath.Trim();
+                            cutOutputDir = string.IsNullOrEmpty(prefs.cutOutputDir) ? "" : prefs.cutOutputDir.Trim();
+                            cutHighlightOnCompletion = prefs.cutHighlightOnCompletion;
+                        }
+                        catch (InvalidOperationException e) 
+                        {
+                            Debug.WriteLine("Somehow, preferences.xml was malformed.  It will be deleted.");
+                            Debug.WriteLine(e);
+                            stream.Dispose();
+                            userStore.DeleteFile(fileName);
+                        }
+                        
                     }
                 }
             } catch (FileNotFoundException e)
@@ -78,6 +96,27 @@ namespace VideoCutter.HelperClasses
                 Debug.WriteLine("Somehow, preferences.xml was not found.");
                 Debug.WriteLine(e);
             }
+        }
+
+        private static void serializer_UnknownNode(object sender, XmlNodeEventArgs e)
+        {
+            Debug.WriteLine("Unknown Node:" + e.Name + "\t" + e.Text);
+        }
+
+        private static void serializer_UnknownAttribute(object sender, XmlAttributeEventArgs e)
+        {
+            Debug.WriteLine("Unknown Attribute: " + e.Attr.Name + " = " + e.Attr.Value);
+        }
+
+        public static void setFFMpegLocations(string ffmpegPath, string ffprobePath, string ffplayPath)
+        {
+            Debug.WriteLine("Path to FFMpeg set to: " + ffmpegPath);
+            Debug.WriteLine("Path to FFProbe set to: " + ffprobePath);
+            Debug.WriteLine("Path to FFPlay set to: " + ffplayPath);
+
+            PreferencesHelper.ffmpegPath = ffmpegPath;
+            PreferencesHelper.ffprobePath = ffprobePath;
+            PreferencesHelper.ffplayPath = ffplayPath;
         }
     }
 }

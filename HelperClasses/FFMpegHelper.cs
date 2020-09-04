@@ -21,25 +21,6 @@ namespace VideoCutter
             }
         }
 
-        public static void SetFFMpegPath(string ffmpegPath)
-        {
-            PreferencesHelper.ffmpegPath = ffmpegPath;
-        }
-
-        /// <summary>
-        /// Does string manipulation to the path of ffmpeg to create a string representing the path to ffprobe.
-        /// </summary>
-        /// <param name="ffmpegPath">
-        /// Path to ffmpeg.exe
-        /// </param>
-        /// <returns>
-        /// Path to ffprobe.exe
-        /// </returns>
-        public static string CreateFFProbePath(string ffmpegPath)
-        {
-            return ffmpegPath.Replace("ffmpeg.exe", "ffprobe.exe");
-        }
-
         public static string GetFFProbePath()
         {
             if (File.Exists(PreferencesHelper.ffprobePath))
@@ -50,11 +31,6 @@ namespace VideoCutter
             {
                 throw new FileNotFoundException("FFProbe not found.  Please select ffprobe.exe in the Settings tab.");
             }
-        }
-
-        public static void SetFFProbePath(string ffprobePath)
-        {
-            PreferencesHelper.ffprobePath = ffprobePath;
         }
 
         /// <summary>
